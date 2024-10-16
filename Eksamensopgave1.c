@@ -5,16 +5,27 @@
 void scan_data(double *operand, char *operator);
 void do_next_op(char operator, double operand, double *accumulator);
 void run_calculator();
+int is_binary_operator(char operator);
 
 int main(void){
     run_calculator();
 }
 
+int is_binary_operator(char operator){ // Returnere 1 hvis den er lig med følgende symboler (De binære) og 0 hvis den er lig med Unære 
+    return (operator == '+' || operator =='-' ||operator == '*' || operator == '/' || operator == '^');
+} 
+
 void scan_data(double *operand, char *operator){
     printf("Indtast en operator: \n");
     scanf(" %c", operator); 
-    
-    switch(*operator){
+
+    if(is_binary_operator(*operator)){ // Hvis funktionen modtager 1, vil den køre if-statementet. Hvis den modtager 0, så er betingelsen ikke opfyldt. Dette er tilsvarende til en boolean.vb
+            printf("Indtast en operand: \n");
+            scanf("%lf", operand);
+    }
+
+
+    /* switch(*operator){
         case '+':
             printf("Indtast en operand: \n");
             scanf("%lf", operand);
@@ -44,11 +55,10 @@ void scan_data(double *operand, char *operator){
         case '!':
             *operand = 0.0;
             break;
-    }
+    } */
 }
 
 void do_next_op(char operator, double operand, double *accumulator){
-
     // Binære:
     switch(operator){
         case '+':

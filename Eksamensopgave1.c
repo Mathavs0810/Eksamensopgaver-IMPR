@@ -24,38 +24,6 @@ void scan_data(double *operand, char *operator){
             scanf("%lf", operand);
     }
 
-
-    /* switch(*operator){
-        case '+':
-            printf("Indtast en operand: \n");
-            scanf("%lf", operand);
-            break;
-        case '-':
-            printf("Indtast en operand: \n");
-            scanf("%lf", operand);
-            break;
-        case '*':
-            printf("Indtast en operand: \n");
-            scanf("%lf", operand);
-            break;
-        case '/':
-            printf("Indtast en operand: \n");
-            scanf("%lf", operand);
-            break;
-        case '^':
-            printf("Indtast en operand: \n");
-            scanf("%lf", operand);
-            break;
-        case '#':
-            *operand = 0.0;
-            break;
-        case '%':
-            *operand = 0.0;
-            break;
-        case '!':
-            *operand = 0.0;
-            break;
-    } */
 }
 
 void do_next_op(char operator, double operand, double *accumulator){

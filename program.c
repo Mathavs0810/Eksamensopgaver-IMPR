@@ -99,7 +99,6 @@ do {
 } while (strcmp(&operator, "q") != 0); // Hvis operatoren er lig q, så outputter funktionen "strcmp" 0, og derfor slutter programmet. 
 }
 
-
 /* Binære Operationer
     +    for addition af akkumulatoren med operanden
     -    for subtraktion af akkumulatoren med operanden

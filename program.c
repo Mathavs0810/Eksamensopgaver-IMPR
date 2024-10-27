@@ -1,3 +1,9 @@
+/*
+Navn: Mathias Øhlenschlæger Storgaard
+Email: mstorg24@student.aau.dk
+Fag: IMPR
+Studieretning: Software
+*/
 #include <stdio.h>
 #include <math.h>
 #include <string.h>
@@ -11,11 +17,11 @@ int main(void){
     run_calculator();
 }
 
-int is_binary_operator(char operator){ // Returnere 1 hvis den er lig med følgende symboler (De binære) og 0 hvis den er lig med Unære 
+int is_binary_operator(char operator){ // Returnere 1 hvis den er lig med følgende symboler (De binære) og 0 hvis den er lig med Unære. Tilsvarende til TRUE/FALSE
     return (operator == '+' || operator =='-' ||operator == '*' || operator == '/' || operator == '^');
 } 
 
-void scan_data(double *operand, char *operator){
+void scan_data(double *operand, char *operator){ // Modtager operator, og operanden, hvis nødvendigt.
     printf("Indtast en operator: \n");
     scanf(" %c", operator); 
 
@@ -26,7 +32,7 @@ void scan_data(double *operand, char *operator){
 
 }
 
-void do_next_op(char operator, double operand, double *accumulator){
+void do_next_op(char operator, double operand, double *accumulator){ //Udfører regneoperationen udfra bruger inputtet.
     // Binære:
     switch(operator){
         case '+':
@@ -42,7 +48,7 @@ void do_next_op(char operator, double operand, double *accumulator){
             printf("Result so far is: %lf \n", *accumulator);
             break;
         case '/':
-            if(operand == 0){
+            if(operand == 0){ // Man kan ikke dividere med 0. Derfor forbliver accumulatoren det samme. 
                 printf("Result so far is: %lf \n", *accumulator);
                 break;
             } else {
@@ -59,7 +65,7 @@ void do_next_op(char operator, double operand, double *accumulator){
     //Unære: 
     switch(operator){
         case '#':
-            if(*accumulator <= 0){
+            if(*accumulator <= 0){ // Man kan ikke tage kvadratrod af 0. Derfor forblive accumulatoren det samme.
                 printf("Result so far is: %lf \n", *accumulator);
                 break;
             } else {

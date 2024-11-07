@@ -23,12 +23,6 @@ struct Scoreboard{
     int yatzy;
 };
 
-struct Dies{
-    int onesDies[30];
-    char twoDies[30];
-    char threesDies[30];
-};
-
 int compare(const void* a, const void* b) {
    return (*(int*)a - *(int*)b);
 } // Anvendes til qsort

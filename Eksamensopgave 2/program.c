@@ -18,7 +18,7 @@ struct Scoreboard{
     int fourOfAKind;
     int small;
     int large;
-    int fullHouse; // Mangler et fiks
+    int fullHouse;
     int chance;
     int yatzy;
 };
@@ -248,11 +248,16 @@ int yatzy(int array[], int nTerninger){
 return 0;
 }
 
+int *roll_multiple_dice(int nTerninger){
+    int *array = (int*) malloc(nTerninger * sizeof(int));
+    for (int i = 0; i < nTerninger; i++){
+        array[i] = (rand() % 6 + 1);
+    }
+    return array;
+}
 
 int main(void){
     struct Scoreboard scoreboard;
-    struct Dies dies;
-    int scores[18];
     int nTerninger;
     int *array;
     srand(time(NULL));
@@ -329,13 +334,5 @@ int main(void){
     printf("SumYatzy: %d \n", scoreboard.yatzy);
 
     return 0;
-}
-
-int *roll_multiple_dice(int nTerninger){
-    int *array = (int*) malloc(nTerninger * sizeof(int));
-    for (int i = 0; i < nTerninger; i++){
-        array[i] = (rand() % 6 + 1);
-    }
-    return array;
 }
 

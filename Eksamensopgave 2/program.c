@@ -210,21 +210,29 @@ int large(int array[], int nTerninger){
 int fullHouse(int array[], int nTerninger){
     qsort(array, nTerninger, sizeof(int), compare);
     int sum = 0;
-    for(int i = nTerninger - 1; i >= 1; i--){
+    int sum1 = 0;
+    int i = 0; 
+    int j = 0; 
+    
+    for(i = nTerninger - 1; i >= 1; i--){
        if(array[i] == array[i-1] && array[i] == array[i-2]){
         sum = array[i] * 3;
-        i = i-2;
-        for(int i = i; i >1; i--){
-            if(array[i] == array[i-1]){
-                sum = sum + array[i] * 2;
-            } else {
-                return 0;
-            }
-        }
-       } 
+        break; 
+     }
     }
-}
-
+    for(j = nTerninger-1 ; j >= 1; j--){
+        if(array[j] == array[j-1]){
+            if(array[i] != array[j]){
+                sum1 = array[j] * 2;
+                break;
+            }
+            }
+        } 
+        if(sum > 0 && sum1 > 0){
+            return sum + sum1;
+        }
+        return 0; 
+    }
 
 int chance(int array[], int nTerninger){
     int sum = 0;
@@ -250,9 +258,9 @@ return 0;
 int main(void){
     struct Scoreboard scoreboard;
     struct Dies dies;
+    int scores[18];
     int nTerninger;
     int *array;
-
     srand(time(NULL));
 
     printf("Indtast hvor mange terninger du vil kaste?\n");
@@ -315,10 +323,7 @@ int main(void){
     printf("SumLarge: %d \n", scoreboard.large);
 
     array = roll_multiple_dice(nTerninger);
-    for(int i = 0; i < nTerninger; i++){
-        printf("%d ", array[i]);
-    }
-    scoreboard.fullHouse = fullHouse(array, nTerninger); // MANGLER
+    scoreboard.fullHouse = fullHouse(array, nTerninger);
     printf("SumFullHouse: %d \n", scoreboard.fullHouse);
 
     array = roll_multiple_dice(nTerninger);
@@ -328,8 +333,6 @@ int main(void){
     array = roll_multiple_dice(nTerninger);
     scoreboard.yatzy = yatzy(array, nTerninger);
     printf("SumYatzy: %d \n", scoreboard.yatzy);
-
-
 
     return 0;
 }

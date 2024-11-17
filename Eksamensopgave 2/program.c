@@ -4,135 +4,92 @@
 #include <time.h>
 int *roll_multiple_dice(int nTerninger);
 
-struct Scoreboard{
-    int ones;
-    int twos;
-    int threes;
-    int fours;
-    int fives;
-    int sixes;
-    int bonus;
-    int onePair;
-    int twoPair;
-    int threeOfAKind;
-    int fourOfAKind;
-    int small;
-    int large;
-    int fullHouse;
-    int chance;
-    int yatzy;
-};
-
 int compare(const void* a, const void* b) {
    return (*(int*)a - *(int*)b);
 } // Anvendes til qsort
 
-int ones(int array[], int nTerninger){
-    int sum = -1;
+void ones(int array[], int nTerninger, int resultsArray[]){
+    int sum = 0; 
     for(int i = 0; i < nTerninger; i++){
         if(array[i] == 1){
             sum++;
         } 
     }
-    if(sum >= 2){
-        return sum * 1;
-    } else {
-        return 0;
-    }
+    resultsArray[0] = sum * 1;
 }
 
-int twos(int array[], int nTerninger){
+
+void twos(int array[], int nTerninger, int resultsArray[]){
     int sum = 0;
     for(int i = 0; i < nTerninger; i++){
         if(array[i] == 2){
             sum++;
         } 
     }
-    if(sum >= 2){
-        return sum * 2;
-    } else {
-        return 0;
-    }
+    resultsArray[1] = sum * 2;
 }
 
-int threes(int array[], int nTerninger){
+void threes(int array[], int nTerninger, int resultsArray[]){
     int sum = 0;
     for(int i = 0; i < nTerninger; i++){
         if(array[i] == 3){
             sum++;
         } 
     }
-    if(sum >= 2){
-        return sum * 3;
-    } else {
-        return 0;
-    }
+    resultsArray[2] = sum * 3;
 }
-int fours(int array[], int nTerninger){
+void fours(int array[], int nTerninger, int resultsArray[]){
     int sum = 0;
     for(int i = 0; i < nTerninger; i++){
         if(array[i] == 4){
             sum++;
         } 
     }
-    if(sum >= 2){
-        return sum * 4;
-    } else {
-        return 0;
-    }
+    resultsArray[3] = sum * 4;
 }
-int fives(int array[], int nTerninger){
+void fives(int array[], int nTerninger, int resultsArray[]){
     int sum = 0;
     for(int i = 0; i < nTerninger; i++){
         if(array[i] == 5){
             sum++;
         } 
     }
-    if(sum >= 2){
-        return sum * 5;
-    } else {
-        return 0;
-    }
+    resultsArray[4] = sum * 5;
 }
 
-int sixes(int array[], int nTerninger){
+void sixes(int array[], int nTerninger, int resultsArray[]){
     int sum = 0;
     for(int i = 0; i < nTerninger; i++){
         if(array[i] == 6){
             sum++;
         } 
     }
-    if(sum >= 2){
-        return sum * 6;
-    } else {
-        return 0;
-    }
+    resultsArray[5] = sum * 6;
 }
 
-int bonus(struct Scoreboard scoreboard){
+void bonus(int resultsArray[]){
     int bonus = 0;
-    bonus = scoreboard.ones + scoreboard.twos + scoreboard.threes + scoreboard.fours + scoreboard.fives + scoreboard.sixes;
+    bonus = resultsArray[0] + resultsArray[1] + resultsArray[2] + resultsArray[3] + resultsArray[4] + resultsArray[5];
     if(bonus >= 63){
-        return 50;
+        resultsArray[6] = 50;
     } else {
-        return 0;
+        resultsArray[6] = 0;
     }
 }
 
-int onePair(int array[], int nTerninger){
+void onePair(int array[], int nTerninger, int resultsArray[]){
     qsort(array,nTerninger, sizeof(int), compare);
     int sum = 0;
     for(int i = nTerninger - 1; i >= 1; i--){
        if(array[i] == array[i-1]){
-        sum = array[i] + array[i-1];
-        return sum;
+        sum = array[i] * 2;
+        resultsArray[7] = sum;
+        break;
        } 
-        }
-    return 0;
     }
+}
 
-
-int twoPair(int array[], int nTerninger){
+void twoPair(int array[], int nTerninger, int resultsArray[]){
     qsort(array, nTerninger, sizeof(int), compare);
     int sum1 = 0;
     int sum2 = 0;
@@ -143,37 +100,37 @@ int twoPair(int array[], int nTerninger){
             i--;
         } else if(sum2 == 0 && array[i] != array[i+1]){
             sum2 = array[i] * 2;
-            return sum1 + sum2;
+            resultsArray[8] = sum1 + sum2;
+            break;
             }
         }
-    }
-    return 0;   
+    } 
 }
-int threeOfAKind(int array[], int nTerninger){
+void threeOfAKind(int array[], int nTerninger, int resultsArray[]){
     qsort(array, nTerninger, sizeof(int), compare);
     int sum = 0;
     for(int i = nTerninger - 1; i >= 1; i--){
        if(array[i] == array[i-1] && array[i] == array[i-2]){
         sum = array[i] + array[i-1] + array[i-2];
-        return sum;
+        resultsArray[9] = sum;
+        break;
        } 
     }
-    return 0;
 }
 
-int fourOfAKind(int array[], int nTerninger){
+void fourOfAKind(int array[], int nTerninger, int resultsArray[]){
     qsort(array, nTerninger, sizeof(int), compare);
     int sum = 0;
     for(int i = nTerninger - 1; i >= 1; i--){
        if(array[i] == array[i-1] && array[i] == array[i-2] && array[i] == array[i-3]){
         sum = array[i] + array[i-1] + array[i-2] + array[i-3];
-        return sum;
+        resultsArray[10] = sum;
+        break;
        } 
     }
-    return 0;
 }
 
-int small(int array[], int nTerninger){
+void small(int array[], int nTerninger, int resultsArray[]){
     qsort(array, nTerninger, sizeof(int), compare);
     int target = 1;
     for(int i = 0; i < nTerninger; i++){
@@ -181,13 +138,13 @@ int small(int array[], int nTerninger){
             target++;
         }
         if(target == 6){
-            return 15;
+            resultsArray[11] = 15;
+            break;
         }
     }
-    return 0;
 }
 
-int large(int array[], int nTerninger){
+void large(int array[], int nTerninger, int resultsArray[]){
     qsort(array, nTerninger, sizeof(int), compare);
     int target = 2;
     for(int i = 0; i < nTerninger; i++){
@@ -195,13 +152,13 @@ int large(int array[], int nTerninger){
             target++;
         }
         if(target == 7){
-            return 20;
+            resultsArray[12] = 20;
+            break;
         }
     }
-    return 0;
 }
 
-int fullHouse(int array[], int nTerninger){
+void fullHouse(int array[], int nTerninger, int resultsArray[]){
     qsort(array, nTerninger, sizeof(int), compare);
     int sum = 0;
     int sum1 = 0;
@@ -223,32 +180,33 @@ int fullHouse(int array[], int nTerninger){
             }
         } 
         if(sum > 0 && sum1 > 0){
-            return sum + sum1;
+            resultsArray[13] = sum + sum1;
         }
-        return 0; 
     }
 
-int chance(int array[], int nTerninger){
+void chance(int array[], int nTerninger, int resultsArray[]){
+    qsort(array, nTerninger, sizeof(int), compare);
     int sum = 0;
-    for(int i = 0; i < nTerninger; i++){
+    for(int i = nTerninger - 1; i >= nTerninger - 5; i--){
         sum += array[i];
     }
-    return sum;
+    resultsArray[14] = sum;
 }
 
-int yatzy(int array[], int nTerninger){ 
+void yatzy(int array[], int nTerninger, int resultsArray[]){ 
     qsort(array, nTerninger, sizeof(int), compare);
     int sum = 0;
     for(int i = nTerninger - 1; i >= 1; i--){
        if(array[i] == array[i-1] && array[i] == array[i-2] && array[i] == array[i-3] && array[i] == array[i-4]){
-        sum = array[i] * 5;
-        return sum;
+        sum = 50;
+        resultsArray[15] = sum;
+        break;
        } 
     }
-return 0;
 }
 
 int *roll_multiple_dice(int nTerninger){
+    srand(time(NULL));
     int *array = (int*) malloc(nTerninger * sizeof(int));
     for (int i = 0; i < nTerninger; i++){
         array[i] = (rand() % 6 + 1);
@@ -256,83 +214,116 @@ int *roll_multiple_dice(int nTerninger){
     return array;
 }
 
+void save_array(int array[], int nTerninger, int (*diceArrays)[nTerninger], int index){
+    for(int i = 0; i < nTerninger; i++){
+        diceArrays[index][i] = array[i];
+    }
+}
+
+
 int main(void){
-    struct Scoreboard scoreboard;
     int nTerninger;
     int *array;
-    srand(time(NULL));
+    int resultsArray[16] = {0}; 
+    const char *combinations[] = {
+    "Ones",
+    "Twos",
+    "Threes",
+    "Fours",
+    "Fives",
+    "Sixes",
+    "Bonus",
+    "One Pair",
+    "Two Pair",
+    "Three of a kind",
+    "Four of a kind",
+    "Small Straight",
+    "Large Straight",
+    "Full House",
+    "Chance",
+    "Yatzy",
+    };    
 
     printf("Indtast hvor mange terninger du vil kaste?\n");
     scanf("%d", &nTerninger);
     if(nTerninger < 5){
         return 1;
     }
+    int diceArrays[16][nTerninger];
 
    // 1-6 
     array = roll_multiple_dice(nTerninger);
-    scoreboard.ones = ones(array, nTerninger);
-    printf("Sum1: %d \n", scoreboard.ones);
-    
-    array = roll_multiple_dice(nTerninger);
-    scoreboard.twos = twos(array, nTerninger);
-    printf("Sum2: %d \n", scoreboard.twos);
+    save_array(array, nTerninger, diceArrays, 0);
+    ones(array, nTerninger, resultsArray);
 
     array = roll_multiple_dice(nTerninger);
-    scoreboard.threes = threes(array, nTerninger);
-    printf("Sum3: %d \n", scoreboard.threes);
+    save_array(array, nTerninger, diceArrays, 1);
+    twos(array, nTerninger, resultsArray);
 
     array = roll_multiple_dice(nTerninger);
-    scoreboard.fours = fours(array, nTerninger);
-    printf("Sum4: %d \n", scoreboard.fours);
+    save_array(array, nTerninger, diceArrays, 2);
+    threes(array, nTerninger, resultsArray);
 
     array = roll_multiple_dice(nTerninger);
-    scoreboard.fives = fives(array, nTerninger);
-    printf("Sum5: %d \n", scoreboard.fives);
+    save_array(array, nTerninger, diceArrays, 3);
+    fours(array, nTerninger, resultsArray);
 
     array = roll_multiple_dice(nTerninger);
-    scoreboard.sixes = sixes(array, nTerninger);
-    printf("Sum6: %d \n", scoreboard.sixes);
+    save_array(array, nTerninger, diceArrays, 4);
+    fives(array, nTerninger, resultsArray);
 
-    scoreboard.bonus = bonus(scoreboard);
-    printf("Bonus: %d \n", scoreboard.bonus);
+    array = roll_multiple_dice(nTerninger);
+    save_array(array, nTerninger, diceArrays, 5);
+    sixes(array, nTerninger, resultsArray);
+
+    bonus(resultsArray);
+    array = memset(array, 0, sizeof(int) * nTerninger);
+    save_array(array, nTerninger, diceArrays, 6);
 
     // Par 1 til FourOfAKind
     array = roll_multiple_dice(nTerninger);
-    scoreboard.onePair = onePair(array, nTerninger);
-    printf("SumPar1: %d \n", scoreboard.onePair);
+    save_array(array, nTerninger, diceArrays, 7);
+    onePair(array, nTerninger, resultsArray);
 
     array = roll_multiple_dice(nTerninger);
-    scoreboard.twoPair = twoPair(array, nTerninger);
-    printf("SumPar2: %d \n", scoreboard.twoPair);
+    save_array(array, nTerninger, diceArrays, 8);
+    twoPair(array, nTerninger, resultsArray);
 
     array = roll_multiple_dice(nTerninger);
-    scoreboard.threeOfAKind = threeOfAKind(array, nTerninger);
-    printf("Sum x3: %d \n", scoreboard.threeOfAKind);
+    save_array(array, nTerninger, diceArrays, 9);
+    threeOfAKind(array, nTerninger, resultsArray);
 
     array = roll_multiple_dice(nTerninger);
-    scoreboard.fourOfAKind = fourOfAKind(array, nTerninger);
-    printf("Sum x4: %d \n", scoreboard.fourOfAKind);
+    save_array(array, nTerninger, diceArrays, 10);
+    fourOfAKind(array, nTerninger, resultsArray);
     // resten
     array = roll_multiple_dice(nTerninger);
-    scoreboard.small = small(array, nTerninger);
-    printf("SumSmall: %d \n", scoreboard.small);
+    save_array(array, nTerninger, diceArrays, 11);
+    small(array, nTerninger, resultsArray);
 
     array = roll_multiple_dice(nTerninger);
-    scoreboard.large = large(array, nTerninger);
-    printf("SumLarge: %d \n", scoreboard.large);
+    save_array(array, nTerninger, diceArrays, 12);
+    large(array, nTerninger, resultsArray);
 
     array = roll_multiple_dice(nTerninger);
-    scoreboard.fullHouse = fullHouse(array, nTerninger);
-    printf("SumFullHouse: %d \n", scoreboard.fullHouse);
+    save_array(array, nTerninger, diceArrays, 13);
+    fullHouse(array, nTerninger, resultsArray);
 
     array = roll_multiple_dice(nTerninger);
-    scoreboard.chance = chance(array, nTerninger);
-    printf("SumChance: %d \n", scoreboard.chance);
+    save_array(array, nTerninger, diceArrays, 14);
+    chance(array, nTerninger, resultsArray);
 
     array = roll_multiple_dice(nTerninger);
-    scoreboard.yatzy = yatzy(array, nTerninger);
-    printf("SumYatzy: %d \n", scoreboard.yatzy);
-
+    save_array(array, nTerninger, diceArrays, 15);
+    yatzy(array, nTerninger, resultsArray);
+    for(int i = 0; i < 16; i++){
+        printf("%s: %d \n", combinations[i], resultsArray[i]);
+        printf("Dies: ");
+        for(int j = 0; j < nTerninger; j++){
+            printf("%d ", diceArrays[i][j]);
+        }
+        printf("\n");
+    }
     return 0;
 }
 

@@ -78,7 +78,6 @@ void bonus(int resultsArray[]){
 }
 
 void onePair(int array[], int nTerninger, int resultsArray[]){
-    qsort(array,nTerninger, sizeof(int), compare);
     int sum = 0;
     for(int i = nTerninger - 1; i >= 1; i--){
        if(array[i] == array[i-1]){
@@ -90,7 +89,6 @@ void onePair(int array[], int nTerninger, int resultsArray[]){
 }
 
 void twoPair(int array[], int nTerninger, int resultsArray[]){
-    qsort(array, nTerninger, sizeof(int), compare);
     int sum1 = 0;
     int sum2 = 0;
     for(int i = nTerninger - 1; i >= 1; i--){
@@ -107,7 +105,6 @@ void twoPair(int array[], int nTerninger, int resultsArray[]){
     } 
 }
 void threeOfAKind(int array[], int nTerninger, int resultsArray[]){
-    qsort(array, nTerninger, sizeof(int), compare);
     int sum = 0;
     for(int i = nTerninger - 1; i >= 1; i--){
        if(array[i] == array[i-1] && array[i] == array[i-2]){
@@ -119,7 +116,6 @@ void threeOfAKind(int array[], int nTerninger, int resultsArray[]){
 }
 
 void fourOfAKind(int array[], int nTerninger, int resultsArray[]){
-    qsort(array, nTerninger, sizeof(int), compare);
     int sum = 0;
     for(int i = nTerninger - 1; i >= 1; i--){
        if(array[i] == array[i-1] && array[i] == array[i-2] && array[i] == array[i-3]){
@@ -131,7 +127,6 @@ void fourOfAKind(int array[], int nTerninger, int resultsArray[]){
 }
 
 void small(int array[], int nTerninger, int resultsArray[]){
-    qsort(array, nTerninger, sizeof(int), compare);
     int target = 1;
     for(int i = 0; i < nTerninger; i++){
         if(array[i] == target){
@@ -145,7 +140,6 @@ void small(int array[], int nTerninger, int resultsArray[]){
 }
 
 void large(int array[], int nTerninger, int resultsArray[]){
-    qsort(array, nTerninger, sizeof(int), compare);
     int target = 2;
     for(int i = 0; i < nTerninger; i++){
         if(array[i] == target){
@@ -159,7 +153,6 @@ void large(int array[], int nTerninger, int resultsArray[]){
 }
 
 void fullHouse(int array[], int nTerninger, int resultsArray[]){
-    qsort(array, nTerninger, sizeof(int), compare);
     int sum = 0;
     int sum1 = 0;
     int i = 0; 
@@ -182,10 +175,9 @@ void fullHouse(int array[], int nTerninger, int resultsArray[]){
         if(sum > 0 && sum1 > 0){
             resultsArray[13] = sum + sum1;
         }
-    }
+}
 
 void chance(int array[], int nTerninger, int resultsArray[]){
-    qsort(array, nTerninger, sizeof(int), compare);
     int sum = 0;
     for(int i = nTerninger - 1; i >= nTerninger - 5; i--){
         sum += array[i];
@@ -194,7 +186,6 @@ void chance(int array[], int nTerninger, int resultsArray[]){
 }
 
 void yatzy(int array[], int nTerninger, int resultsArray[]){ 
-    qsort(array, nTerninger, sizeof(int), compare);
     int sum = 0;
     for(int i = nTerninger - 1; i >= 1; i--){
        if(array[i] == array[i-1] && array[i] == array[i-2] && array[i] == array[i-3] && array[i] == array[i-4]){
@@ -211,6 +202,7 @@ int *roll_multiple_dice(int nTerninger){
     for (int i = 0; i < nTerninger; i++){
         array[i] = (rand() % 6 + 1);
     }
+    qsort(array, nTerninger, sizeof(int), compare);
     return array;
 }
 
@@ -220,8 +212,7 @@ void save_array(int array[], int nTerninger, int (*diceArrays)[nTerninger], int 
     }
 }
 
-
-int main(void){
+void run_game(){
     int nTerninger;
     int *array;
     int resultsArray[16] = {0}; 
@@ -247,7 +238,7 @@ int main(void){
     printf("Indtast hvor mange terninger du vil kaste?\n");
     scanf("%d", &nTerninger);
     if(nTerninger < 5){
-        return 1;
+        exit(EXIT_FAILURE);
     }
     int diceArrays[16][nTerninger];
 
@@ -316,6 +307,7 @@ int main(void){
     array = roll_multiple_dice(nTerninger);
     save_array(array, nTerninger, diceArrays, 15);
     yatzy(array, nTerninger, resultsArray);
+
     for(int i = 0; i < 16; i++){
         printf("%s: %d \n", combinations[i], resultsArray[i]);
         printf("Dies: ");
@@ -324,6 +316,15 @@ int main(void){
         }
         printf("\n");
     }
+}
+
+int main(void){
+    int answer = 1;
+    while(answer != 0){
+        run_game();
+        printf("Do you wanna play again? (y = 1/n = 0)\n");
+        scanf(" %d", &answer);
+    }   
     return 0;
 }
 

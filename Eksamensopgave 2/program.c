@@ -1,3 +1,9 @@
+/*
+Navn: Mathias Øhlenschlæger Storgaard
+Email: mstorg24@student.aau.dk
+Fag: IMPR
+Studieretning: Software
+*/
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
@@ -322,7 +328,7 @@ int main(void){
     int answer = 1;
     while(answer != 0){
         run_game();
-        printf("Do you wanna play again? (y = 1/n = 0)\n");
+        printf("Do you wanna play again? (y = 1 / n = 0)\n");
         scanf(" %d", &answer);
     }   
     return 0;

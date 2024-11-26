@@ -28,7 +28,16 @@ void holdIndlaesning(kampInfo *infoArray, hold *holdArray);
 void assign_team_data(kampInfo *infoArray, hold *holdArray);
 
 int compare(const void* a, const void* b) {
-   return (*(int*)a - *(int*)b);
+    hold *teamA = (hold *)a;
+    hold *teamB = (hold *)b;
+
+    if (teamB->point != teamA->point) {
+        return teamB->point - teamA->point;
+    }
+    
+    int goal_diffA = teamA->goals_scored - teamA->goals_against;
+    int goal_diffB = teamB->goals_scored - teamB->goals_against;
+    return goal_diffB - goal_diffA;
 }
 
 
@@ -38,6 +47,7 @@ int main(void){
     filIndlaesning(infoArray);
     holdIndlaesning(infoArray, holdArray);
     assign_team_data(infoArray, holdArray);
+    qsort(holdArray, 12, sizeof(hold), compare);
     
     for(int i = 0; i < HOLD; i++){
         printf("%s: Points: %d GS: %d GA: %d\n", holdArray[i].holdnavn, holdArray[i].point, holdArray[i].goals_scored, holdArray[i].goals_against);

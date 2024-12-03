@@ -37,17 +37,22 @@ int compare(const void* a, const void* b);
 
 
 int main(void){
-    kampInfo infoArray[90];
-    hold holdArray[12];
-    filIndlaesning(infoArray);
-    holdIndlaesning(infoArray, holdArray);
-    fordel_hold_data(infoArray, holdArray);
-    qsort(holdArray, 12, sizeof(hold), compare);
+    kampInfo infoArray[KAMPE]; 
+    hold holdArray[HOLD]; 
+
+    filIndlaesning(infoArray); //Filindlæsning til kampInfo struct
+    holdIndlaesning(infoArray, holdArray); // Indsætning af hold i hold struct.
+    fordel_hold_data(infoArray, holdArray); //Gennemgår alt kampInfo og indsættes i hold struct. 
+
+    qsort(holdArray, 12, sizeof(hold), compare); // Sortere pts således at scoreboardet, går fra bedst til værst.
+    
+    //Print af scoreboard
     printf("Team  Pts  GS   GA \n");
     printf("------------------\n");
     for(int i = 0; i < HOLD; i++){
         printf("%-5s %-4d %-4d %d\n", holdArray[i].holdnavn, holdArray[i].point, holdArray[i].goals_scored, holdArray[i].goals_against);
     }
+
     return 0;
 }
 
@@ -75,7 +80,7 @@ void holdIndlaesning(kampInfo *infoArray, hold *holdArray){
         holdArray[i].goals_scored = 0;
         holdArray[i].goals_against = 0;
     }
-}
+} // Initialisering af hold i array, og værdier sættes til 0.
 
 int pointFordeling(int hold1Maal, int hold2Maal){
     if(hold1Maal > hold2Maal){
@@ -85,7 +90,7 @@ int pointFordeling(int hold1Maal, int hold2Maal){
     } else {
         return 0;
     }
-}
+} // Fordeling af point, hvis de vinder, uafgjort eller taber.
 
 void fordel_hold_data(kampInfo *infoArray, hold *holdArray){
     for(int i = 0; i < KAMPE; i++){
@@ -99,10 +104,9 @@ void fordel_hold_data(kampInfo *infoArray, hold *holdArray){
                 holdArray[j].goals_against += infoArray[i].hold1maal;
                 holdArray[j].goals_scored += infoArray[i].hold2maal;
             }
-
         }
-    }
-}
+    }// To for loops der køre, som tjekker hver kamp og fordeler point, goals scored og goals against til de respektive hold.
+} // Hvis holdnavn i hold struct er det samme som hold1 i kampInfo struct, så tilføjes point, goals scored og goals against til det hold.
 
 int compare(const void* a, const void* b) {
     hold *teamA = (hold *)a;
@@ -111,9 +115,9 @@ int compare(const void* a, const void* b) {
     if (teamB->point != teamA->point) {
         return teamB->point - teamA->point;
     }
-    
+
     int goal_diffA = teamA->goals_scored - teamA->goals_against;
     int goal_diffB = teamB->goals_scored - teamB->goals_against;
     return goal_diffB - goal_diffA;
-}
+} // Sammenligner holdene, således at holdene med flest point og bedst mål difference kommer først.
 
